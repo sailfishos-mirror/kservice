@@ -107,13 +107,13 @@
 >Beschreibung</title>
 
 <para
->Das KService-Framework benutzt Informationen aus <filename class="extension"
+>Das KService-Framework verwendet Informationen aus <filename class="extension"
 >.desktop</filename
 >-Dateien, um Dienste einschließlich der Module für Programme und Bibliotheken auf der Basis von Qt5 zu finden. Das Modulsystem von Qt5 verwendet jedoch im Modul selbst eingebettete &JSON;-Daten. Mit dem Dienstprogramm <command
 >desktoptojson</command
 > können die Informationen aus einer <filename class="extension"
 >.desktop</filename
->-Datei auch als eingebettete Daten für ein Qt5-Modul benutzt werden, indem die Einträge in der <filename class="extension"
+>-Datei auch als eingebettete Daten für ein Qt5-Modul verwendet werden, indem die Einträge in der <filename class="extension"
 >.desktop</filename
 >-Datei in &JSON;-Daten umgewandelt werden.</para>
 

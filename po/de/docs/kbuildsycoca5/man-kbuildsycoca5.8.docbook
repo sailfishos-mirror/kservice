@@ -95,10 +95,10 @@
 >.directory</literal
 > und dem &MIME;-Typdateien mit der Erweiterung <literal role="extension"
 >.xml</literal
->, den das KService-Framework benutzt, um Module, Programme und andere Dienste zu finden. </para>
+>, den das KService-Framework verwendet, um Module, Programme und andere Dienste zu finden. </para>
 
 <para
->Die Bibliothek KService benutzt diese Datenbank, um die angefragten Informationen effektiv bereit zustellen. </para>
+>Die Bibliothek KService verwendet diese Datenbank, um die angefragten Informationen effektiv bereit zustellen. </para>
 
 <para
 >Benutzer müssen dieses Programm normalerweise nicht direkt ausführen. Es wird von KService ausgeführt, wenn es nötig ist, weil eine der zwischengespeicherten Daten geändert wurde. </para>
