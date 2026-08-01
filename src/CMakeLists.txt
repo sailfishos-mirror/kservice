@@ -87,7 +87,7 @@ PRIVATE
     KF6::CoreAddons   # KShell
 )
 
-qt_add_resources(KF6Service "fallback-menu" PREFIX "/org.kde.kservice" FILES fallback-applications.menu)
+qt_add_resources(KF6Service "fallback-menu" PREFIX "/org.kde.kservice" FILES fallback-applications.menu OUTPUT_TARGETS KService_RESOURCE_TARGETS)
 
 ecm_generate_headers(KService_HEADERS
   HEADER_NAMES
@@ -109,7 +109,7 @@ ecm_generate_headers(KService_HEADERS
 
 ecm_generate_qdoc(KF6Service kservice.qdocconf)
 
-install(TARGETS KF6Service EXPORT KF6ServiceTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KF6Service ${KService_RESOURCE_TARGETS} EXPORT KF6ServiceTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
    "${CMAKE_CURRENT_BINARY_DIR}/kservice_export.h"
