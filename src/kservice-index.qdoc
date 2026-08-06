@@ -5,7 +5,7 @@
 
     The two relevant classes are:
     \list
-    \li \l KService: This models an installed application and allows to query various properties about it
+    \li \l {kservice.html}{KService}: This models an installed application and allows to query various properties about it
     \li \l KApplicationTrader: This is used to list available applications as well as applications associated with a given file type
     \endlist
 
