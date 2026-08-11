@@ -146,7 +146,7 @@
 <para
 >Normalerweise sendet <command
 >kbuildsycoca5</command
-> bei der Aktualisierung des Zwischenspeichers ein Signal über &DBus; an alle Anwendungen, die KService verwenden, damit die Anwendungen immer mit den neuesten Informationen arbeiten. Mit dieser Option wird dieses Verhalten abgeschaltet.</para>
+> bei der Aktualisierung des Zwischenspeichers ein Signal über &DBus; an alle Anwendungen, die KService verwenden, damit die Anwendungen immer mit den neuesten Informationen arbeiten. Mit dieser Option wird dieses Verhalten deaktiviert.</para>
 </listitem>
 </varlistentry>
 
