@@ -246,6 +246,16 @@ private Q_SLOTS:
         removedApps[QStringLiteral("image/jpeg")] << QStringLiteral("firefox.desktop");
         removedApps[QStringLiteral("text/html")] << QStringLiteral("gvim.desktop") << QStringLiteral("abiword.desktop");
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 12, 0)
+        // shared-mime-info >= 2.5 no longer spells out that text/* types inherit text/plain, it
+        // relies on the implicit rule from the spec. QMimeDatabase applied that rule only to
+        // mimetypes without any other parent, so these two don't reach the text/plain offers.
+        // Fixed by https://codereview.qt-project.org/c/qt/qtbase/+/765860
+        // TODO: adjust the version above once that lands.
+        preferredApps.remove(QStringLiteral("text/x-csrc"));
+        preferredApps.remove(QStringLiteral("text/x-python"));
+#endif
+
         // Clean-up non-existing apps
         removeNonExisting(preferredApps);
         removeNonExisting(removedApps);
@@ -402,6 +412,16 @@ private Q_SLOTS:
 
     void testMultipleInheritance()
     {
+#if QT_VERSION < QT_VERSION_CHECK(6, 12, 0)
+        // See the comment in initTestCase(). With shared-mime-info >= 2.5, application/x-shellscript
+        // only declares application/x-executable, so QMimeDatabase doesn't let it reach text/plain.
+        // Fixed by https://codereview.qt-project.org/c/qt/qtbase/+/765860
+        // TODO: adjust the version above once that lands.
+        QMimeDatabase db;
+        if (!db.mimeTypeForName(QStringLiteral("text/x-shellscript")).inherits(QStringLiteral("text/plain"))) {
+            QSKIP("Qt is too old for shared-mime-info >= 2.5");
+        }
+#endif
         // application/x-shellscript inherits from both text/plain and application/x-executable
         KService::List offers = KApplicationTrader::queryByMimeType(QStringLiteral("application/x-shellscript"));
         QVERIFY(offerListHasService(offers, fakeTextApplication, true));
