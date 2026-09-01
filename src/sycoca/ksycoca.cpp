@@ -581,7 +581,7 @@ public:
     }
 
     // Check times of last modification of all directories on which ksycoca depends,
-    // If none of them is newer than the mtime we stored for that directory at the
+    // If none of them changed from the mtime we stored for that directory at the
     // last rebuild, this means that there's no need to rebuild ksycoca.
     bool checkDirectoriesTimestamps(const QMap<QString, qint64> &dirs) const
     {
@@ -593,7 +593,8 @@ public:
 
             auto visitor = [&](const QFileInfo &fi) {
                 const QDateTime mtime = fi.lastModified();
-                if (mtime.toMSecsSinceEpoch() > lastStamp) {
+                // WARNING: this must be != to catch both upgrades (mtime increasing) and downgrades (mtime decreasing)
+                if (mtime.toMSecsSinceEpoch() != lastStamp) {
                     if (mtime > m_now) {
                         qCDebug(SYCOCA) << fi.filePath() << "has a modification time in the future" << mtime;
                     }

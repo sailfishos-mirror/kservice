@@ -159,12 +159,7 @@ bool KBuildSycoca::build()
     // ## should we convert to UTC to avoid surprises when summer time kicks in?
     const auto lstDirs = factoryResourceDirs();
     for (const QString &dir : lstDirs) {
-        qint64 stamp = 0;
-        KSycocaUtilsPrivate::visitResourceDirectory(dir, [&stamp](const QFileInfo &info) {
-            stamp = qMax(stamp, info.lastModified().toMSecsSinceEpoch());
-            return true;
-        });
-        m_allResourceDirs.insert(dir, stamp);
+        m_allResourceDirs.insert(dir, QFileInfo(dir).lastModified().toMSecsSinceEpoch());
     }
 
     const auto lstFiles = factoryExtraFiles();
@@ -257,12 +252,7 @@ bool KBuildSycoca::build()
                 dir.chop(1); // remove trailing slash, to avoid having ~/.local/share/applications twice
             }
             if (!m_allResourceDirs.contains(dir)) {
-                qint64 stamp = 0;
-                KSycocaUtilsPrivate::visitResourceDirectory(dir, [&stamp](const QFileInfo &info) {
-                    stamp = qMax(stamp, info.lastModified().toMSecsSinceEpoch());
-                    return true;
-                });
-                m_allResourceDirs.insert(dir, stamp);
+                m_allResourceDirs.insert(dir, QFileInfo(dir).lastModified().toMSecsSinceEpoch());
             }
         }
 
