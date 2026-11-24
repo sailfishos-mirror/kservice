@@ -62,7 +62,7 @@
 >kbuildsycoca6</command
 ></refname>
 <refpurpose
->KService masaüstü dosya sistemi yapılandırma önbelleğini yeniden yapar</refpurpose>
+>KService masaüstü dosya sistemi yapılandırma ön belleğini yeniden yapar</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
@@ -93,13 +93,13 @@
 >.desktop</literal
 > ve <literal role="extension"
 >.xml</literal
-> &MIME; türüne sahip dosyalarında depolanan verinin ikili önbelleğini yapar. </para>
+> &MIME; türüne sahip dosyalarında depolanan verinin ikili ön belleğini yapar. </para>
 
 <para
 >KService kitaplığı, kendisinden istenilen bilgiyi tez sağlamak için bu veri tabanını kullanır. </para>
 
 <para
->Kullanıcıların normalde bu uygulamayı doğrudan çalıştırmaları gerekmez; KService, verileri önbelleğe alınan dosyalardan herhangi biri değiştirildiğinde gerekirse çalıştıracaktır. </para>
+>Kullanıcıların normalde bu uygulamayı doğrudan çalıştırmaları gerekmez; KService, verileri ön belleğe alınan dosyalardan herhangi biri değiştirildiğinde gerekirse çalıştıracaktır. </para>
 </refsect1>
 
 
@@ -129,7 +129,7 @@
 ></term>
 <listitem>
 <para
->Var olan önbelleği kullanmak ve yalnızca değiştirilen veya eklenen bilgiyi güncellemek yerine boş bir önbellekle başlayın. <option
+>Var olan ön belleği kullanmak ve yalnızca değiştirilen veya eklenen bilgiyi güncellemek yerine boş bir ön bellek ile başlayın. <option
 >--global</option
 > ayarlanmışsa yok sayılır.</para>
 </listitem>
@@ -142,7 +142,7 @@
 ></term>
 <listitem>
 <para
->Uygulama menüsü veri tabanı üretilmesini sınayın. Aslında önbelleği yapmaz.</para>
+>Uygulama menüsü veri tabanı üretilmesini sınayın. Aslında ön belleği yapmaz.</para>
 </listitem>
 </varlistentry>
 
@@ -232,7 +232,7 @@
 ></term>
 <listitem>
 <para
->KService önbelleği, <command
+>KService ön belleği, <command
 >kbuildsycoca6</command
 > tarafından üretilir. &UNIX; sistemlerde, <varname
 >cachedir</varname
