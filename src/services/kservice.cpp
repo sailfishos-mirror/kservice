@@ -44,10 +44,41 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     const KConfigGroup desktopGroup = config->desktopGroup();
     QMap<QString, QString> entryMap = desktopGroup.entryMap();
 
+    // These standard keys are specified to not be localized, entryMap contains potentially localized values which we should never read
+    constexpr std::array untranslatedKeys = {
+        QLatin1String("Type"),
+        QLatin1String("Version"),
+        QLatin1String("NoDisplay"),
+        QLatin1String("Hidden"),
+        QLatin1String("OnlyShowIn"),
+        QLatin1String("NotShowIn"),
+        QLatin1String("DBusActivatable"),
+        QLatin1String("TryExec"),
+        QLatin1String("Exec"),
+        QLatin1String("Path"),
+        QLatin1String("Terminal"),
+        QLatin1String("Actions"),
+        QLatin1String("MimeType"),
+        QLatin1String("Categories"),
+        QLatin1String("Implements"),
+        QLatin1String("Keywords"),
+        QLatin1String("StartupNotify"),
+        QLatin1String("StartupWMClass"),
+        QLatin1String("URL"),
+        QLatin1String("PrefersNonDefaultGPU"),
+        QLatin1String("SingleMainWindow"),
+    };
+
+    for (const auto &key : untranslatedKeys) {
+        if (auto it = entryMap.find(key); it != entryMap.end()) {
+            it.value() = desktopGroup.readEntryUntranslated(key);
+        }
+    }
+
     entryMap.remove(QStringLiteral("Encoding")); // reserved as part of Desktop Entry Standard
     entryMap.remove(QStringLiteral("Version")); // reserved as part of Desktop Entry Standard
 
-    q->setDeleted(desktopGroup.readEntry("Hidden", false));
+    q->setDeleted(desktopGroup.readEntryUntranslated("Hidden", false));
     entryMap.remove(QStringLiteral("Hidden"));
     if (q->isDeleted()) {
         m_bValid = false;
@@ -104,7 +135,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     QString _name = KServiceUtilPrivate::completeBaseName(entryPath);
 
     m_strIcon = entryMap.take(QStringLiteral("Icon"));
-    m_bTerminal = desktopGroup.readEntry("Terminal", false);
+    m_bTerminal = desktopGroup.readEntryUntranslated("Terminal", false);
     entryMap.remove(QStringLiteral("Terminal"));
     m_strTerminalOptions = entryMap.take(QStringLiteral("TerminalOptions"));
     m_strWorkingDirectory = KShell::tildeExpand(entryMap.take(QStringLiteral("Path")));
@@ -120,11 +151,11 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     }
 
     if (entryMap.remove(QStringLiteral("Categories"))) {
-        categories = desktopGroup.readXdgListEntry("Categories");
+        categories = desktopGroup.readXdgListEntryUntranslated("Categories");
     }
 
     if (entryMap.remove(QStringLiteral("MimeType"))) {
-        m_mimeTypes = desktopGroup.readXdgListEntry("MimeType");
+        m_mimeTypes = desktopGroup.readXdgListEntryUntranslated("MimeType");
     }
 
     m_strDesktopEntryName = _name;
@@ -146,7 +177,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         if (!key.contains(QLatin1Char('['))) {
             // qCDebug(SERVICES) << "  Key =" << key << " Data =" << it.value();
             if (key == QLatin1String("X-Flatpak-RenamedFrom")) {
-                m_mapProps.insert(key, desktopGroup.readXdgListEntry(key));
+                m_mapProps.insert(key, desktopGroup.readXdgListEntryUntranslated(key));
             } else {
                 m_mapProps.insert(key, QVariant(it.value()));
             }
@@ -184,7 +215,7 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
             continue;
         }
 
-        if (!cg.hasKey("Exec") && !config->desktopGroup().readEntry("DBusActivatable", false)) {
+        if (!cg.hasKey("Exec") && !config->desktopGroup().readEntryUntranslated("DBusActivatable", false)) {
             qCWarning(SERVICES) << "The action" << group << "in the desktop file" << q->entryPath() << "has no Exec key and not D-Bus activatable";
             continue;
         }
@@ -200,7 +231,12 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
             entriesVariants.insert(key, value);
         }
 
-        KServiceAction action(group, cg.readEntry("Name"), cg.readEntry("Icon"), cg.readEntry("Exec"), cg.readEntry("NoDisplay", false), KService::Ptr());
+        KServiceAction action(group,
+                              cg.readEntry("Name"),
+                              cg.readEntry("Icon"),
+                              cg.readEntryUntranslated("Exec"),
+                              cg.readEntryUntranslated("NoDisplay", false),
+                              KService::Ptr());
         action.setData(QVariant::fromValue(entriesVariants));
         m_actions.append(action);
     }
